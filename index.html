@@ -1,0 +1,1091 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The Local Theory | Premium Web Ecosystems</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Premium Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Clash+Display:wght@400;500;600;700&family=Space+Mono:wght@400;700&family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <style>
+        :root {
+            --primary: #fbbf24;
+            --dark-bg: #0a0e27;
+            --card-bg: #111827;
+            --accent: #ec4899;
+            --text-primary: #f1f5f9;
+            --text-secondary: #cbd5e1;
+            --border-color: rgba(251, 191, 36, 0.1);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: var(--dark-bg);
+            color: var(--text-primary);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        /* Typography Utilities */
+        .display-xl {
+            font-family: 'Clash Display', sans-serif;
+            font-size: clamp(2.5rem, 8vw, 5rem);
+            font-weight: 700;
+            letter-spacing: -0.02em;
+            line-height: 1.1;
+        }
+
+        .display-lg {
+            font-family: 'Clash Display', sans-serif;
+            font-size: clamp(1.875rem, 5vw, 3rem);
+            font-weight: 600;
+            letter-spacing: -0.01em;
+        }
+
+        .headline {
+            font-family: 'Space Mono', monospace;
+            font-size: 0.875rem;
+            font-weight: 700;
+            letter-spacing: 0.15em;
+            text-transform: uppercase;
+            color: var(--primary);
+        }
+
+        .subtext {
+            font-family: 'Poppins', sans-serif;
+            font-size: 1.125rem;
+            font-weight: 300;
+            color: var(--text-secondary);
+            line-height: 1.8;
+        }
+
+        /* Color Utilities */
+        .text-gold { color: var(--primary); }
+        .text-accent { color: var(--accent); }
+        .border-gold { border-color: var(--primary); }
+
+        /* Glass Morphism Cards */
+        .glass-card {
+            background: rgba(17, 24, 39, 0.5);
+            backdrop-filter: blur(20px);
+            border: 1px solid var(--border-color);
+            border-radius: 32px;
+            transition: all 0.4s cubic-bezier(0.23, 1, 0.320, 1);
+        }
+
+        .glass-card:hover {
+            border-color: var(--primary);
+            transform: translateY(-8px);
+            box-shadow: 0 20px 50px -20px rgba(251, 191, 36, 0.3);
+            background: rgba(17, 24, 39, 0.7);
+        }
+
+        /* Gradient Buttons */
+        .btn-primary {
+            background: linear-gradient(135deg, var(--primary) 0%, #f59e0b 100%);
+            color: #000;
+            padding: 14px 32px;
+            border-radius: 20px;
+            font-weight: 600;
+            border: none;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-family: 'Poppins', sans-serif;
+            box-shadow: 0 10px 30px -10px rgba(251, 191, 36, 0.4);
+            text-decoration: none;
+            display: inline-block;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 15px 40px -10px rgba(251, 191, 36, 0.6);
+        }
+
+        .btn-secondary {
+            background: transparent;
+            color: var(--primary);
+            border: 2px solid var(--primary);
+            padding: 12px 28px;
+            border-radius: 20px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        .btn-secondary:hover {
+            background: var(--primary);
+            color: #000;
+        }
+
+        /* Navigation */
+        nav {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 50;
+            background: rgba(10, 14, 39, 0.8);
+            backdrop-filter: blur(20px);
+            border-bottom: 1px solid rgba(251, 191, 36, 0.1);
+            padding: 1.25rem 2rem;
+        }
+
+        nav .container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .logo {
+            font-family: 'Clash Display', sans-serif;
+            font-size: 1.5rem;
+            font-weight: 700;
+            letter-spacing: 0.05em;
+            text-transform: uppercase;
+        }
+
+        .nav-links {
+            display: none;
+            gap: 3rem;
+            list-style: none;
+        }
+
+        .nav-links.active {
+            display: flex;
+        }
+
+        .nav-links a {
+            font-family: 'Space Mono', monospace;
+            font-size: 0.75rem;
+            font-weight: 700;
+            letter-spacing: 0.15em;
+            text-transform: uppercase;
+            color: var(--text-secondary);
+            text-decoration: none;
+            transition: color 0.3s ease;
+            padding: 0.5rem 1rem;
+        }
+
+        .nav-links a:hover {
+            color: var(--primary);
+        }
+
+        @media (min-width: 768px) {
+            .nav-links {
+                display: flex !important;
+            }
+        }
+
+        /* Hero Section */
+        .hero {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            overflow: hidden;
+            padding-top: 80px;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: -40%;
+            right: -20%;
+            width: 600px;
+            height: 600px;
+            background: radial-gradient(circle, rgba(251, 191, 36, 0.15) 0%, transparent 70%);
+            border-radius: 50%;
+            filter: blur(80px);
+        }
+
+        .hero::after {
+            content: '';
+            position: absolute;
+            bottom: -30%;
+            left: -10%;
+            width: 500px;
+            height: 500px;
+            background: radial-gradient(circle, rgba(236, 72, 153, 0.1) 0%, transparent 70%);
+            border-radius: 50%;
+            filter: blur(80px);
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 1;
+            text-align: center;
+            max-width: 1200px;
+            padding: 2rem;
+            animation: fadeInUp 0.8s ease 0.2s both;
+        }
+
+        .hero h1 {
+            margin-bottom: 1.5rem;
+        }
+
+        .hero h1 .highlight {
+            background: linear-gradient(135deg, var(--primary) 0%, var(--accent) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            animation: gradient-shift 4s ease infinite;
+        }
+
+        @keyframes gradient-shift {
+            0%, 100% { filter: hue-rotate(0deg); }
+            50% { filter: hue-rotate(20deg); }
+        }
+
+        .hero .subtext {
+            margin-bottom: 2.5rem;
+            font-size: clamp(1rem, 3vw, 1.25rem);
+        }
+
+        /* Stats Section */
+        .stats {
+            background: linear-gradient(180deg, rgba(17, 24, 39, 0.8) 0%, rgba(10, 14, 39, 0.5) 100%);
+            border-top: 1px solid var(--border-color);
+            border-bottom: 1px solid var(--border-color);
+            padding: 5rem 2rem;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 3rem;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .stat-item {
+            text-align: center;
+            animation: fadeInUp 0.8s ease both;
+        }
+
+        .stat-item:nth-child(1) { animation-delay: 0.1s; }
+        .stat-item:nth-child(2) { animation-delay: 0.2s; }
+        .stat-item:nth-child(3) { animation-delay: 0.3s; }
+        .stat-item:nth-child(4) { animation-delay: 0.4s; }
+
+        .stat-number {
+            font-family: 'Clash Display', sans-serif;
+            font-size: clamp(2.5rem, 6vw, 4rem);
+            font-weight: 700;
+            color: var(--primary);
+            margin-bottom: 0.5rem;
+        }
+
+        .stat-label {
+            font-family: 'Space Mono', monospace;
+            font-size: 0.75rem;
+            font-weight: 700;
+            letter-spacing: 0.2em;
+            text-transform: uppercase;
+            color: var(--text-secondary);
+        }
+
+        /* Features Section */
+        .features {
+            padding: 6rem 2rem;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .section-title {
+            text-align: center;
+            margin-bottom: 4rem;
+        }
+
+        .section-title .display-lg {
+            margin-bottom: 1rem;
+        }
+
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+        }
+
+        .feature-card {
+            padding: 2.5rem;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .feature-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(90deg, var(--primary) 0%, var(--accent) 100%);
+            transform: scaleX(0);
+            transform-origin: left;
+            transition: transform 0.6s ease;
+        }
+
+        .feature-card:hover::before {
+            transform: scaleX(1);
+        }
+
+        .feature-icon {
+            font-size: 3rem;
+            margin-bottom: 1.5rem;
+            transition: transform 0.3s ease;
+        }
+
+        .feature-card:hover .feature-icon {
+            transform: scale(1.2) rotate(-5deg);
+        }
+
+        .feature-title {
+            font-family: 'Clash Display', sans-serif;
+            font-size: 1.5rem;
+            font-weight: 600;
+            margin-bottom: 1rem;
+        }
+
+        .feature-description {
+            color: var(--text-secondary);
+            font-size: 0.95rem;
+            line-height: 1.7;
+        }
+
+        /* Portfolio Section */
+        .portfolio {
+            background: linear-gradient(180deg, rgba(17, 24, 39, 0.5) 0%, rgba(10, 14, 39, 0.8) 100%);
+            padding: 6rem 2rem;
+        }
+
+        .portfolio-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 2rem;
+            max-width: 1200px;
+            margin: 3rem auto 0;
+        }
+
+        .portfolio-card {
+            overflow: hidden;
+            position: relative;
+            height: 450px;
+        }
+
+        .portfolio-card-inner {
+            background: linear-gradient(135deg, #1e293b 0%, #0f172a 100%);
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            padding: 2rem;
+            border-radius: 28px;
+            position: relative;
+            overflow: hidden;
+            transition: all 0.4s ease;
+        }
+
+        .portfolio-card:hover .portfolio-card-inner {
+            transform: translateY(-10px);
+            box-shadow: 0 30px 60px -20px rgba(251, 191, 36, 0.2);
+        }
+
+        .portfolio-emoji {
+            font-size: 5rem;
+            margin-bottom: 2rem;
+            transition: transform 0.5s cubic-bezier(0.23, 1, 0.320, 1);
+        }
+
+        .portfolio-card:hover .portfolio-emoji {
+            transform: scale(1.2) rotate(10deg);
+        }
+
+        .portfolio-title {
+            font-family: 'Clash Display', sans-serif;
+            font-size: 1.5rem;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+        }
+
+        .portfolio-category {
+            font-family: 'Space Mono', monospace;
+            font-size: 0.7rem;
+            font-weight: 700;
+            letter-spacing: 0.15em;
+            text-transform: uppercase;
+            color: var(--primary);
+            margin-bottom: 1rem;
+        }
+
+        .portfolio-description {
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+            margin-bottom: auto;
+            line-height: 1.6;
+        }
+
+        .portfolio-btn {
+            width: 100%;
+            margin-top: 1.5rem;
+        }
+
+        /* CTA Section */
+        .cta {
+            padding: 6rem 2rem;
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        .cta-card {
+            padding: 4rem;
+            border-radius: 48px;
+            border: 2px solid var(--primary);
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .cta-card::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            right: -50%;
+            width: 400px;
+            height: 400px;
+            background: radial-gradient(circle, rgba(251, 191, 36, 0.1) 0%, transparent 70%);
+            border-radius: 50%;
+            pointer-events: none;
+        }
+
+        .cta-content {
+            position: relative;
+            z-index: 1;
+        }
+
+        .cta-content h2 {
+            margin-bottom: 1.5rem;
+        }
+
+        .cta-quote {
+            font-size: 1.125rem;
+            color: var(--text-secondary);
+            margin-bottom: 2rem;
+            line-height: 1.8;
+            font-style: italic;
+        }
+
+        .cta-author {
+            font-family: 'Space Mono', monospace;
+            font-size: 0.85rem;
+            font-weight: 700;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            color: var(--primary);
+        }
+
+        /* FAQ Section */
+        .faq {
+            padding: 6rem 2rem;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .faq-title {
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+
+        .faq-item {
+            background: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 20px;
+            padding: 1.5rem;
+            margin-bottom: 1.5rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .faq-item:hover {
+            border-color: var(--primary);
+            background: rgba(17, 24, 39, 0.7);
+        }
+
+        .faq-question {
+            font-weight: 500;
+            color: var(--text-primary);
+        }
+
+        .faq-answer {
+            color: var(--primary);
+            font-weight: 700;
+            font-size: 0.9rem;
+        }
+
+        /* Footer */
+        footer {
+            border-top: 1px solid var(--border-color);
+            background: rgba(10, 14, 39, 0.8);
+            padding: 4rem 2rem 2rem;
+            text-align: center;
+        }
+
+        .footer-text {
+            font-family: 'Space Mono', monospace;
+            font-size: 0.7rem;
+            font-weight: 700;
+            letter-spacing: 0.2em;
+            text-transform: uppercase;
+            color: var(--text-secondary);
+            margin-top: 2rem;
+        }
+
+        /* Modal Styles */
+        .modal {
+            position: fixed;
+            inset: 0;
+            z-index: 9999;
+            background: rgba(0, 0, 0, 0.95);
+            backdrop-filter: blur(12px);
+            display: none;
+            align-items: center;
+            justify-content: center;
+            padding: 1rem;
+            animation: fadeIn 0.3s ease;
+        }
+
+        .modal.active {
+            display: flex;
+        }
+
+        .modal-content {
+            background: linear-gradient(135deg, #1e293b 0%, #0f172a 100%);
+            border-radius: 40px;
+            width: 100%;
+            max-width: 380px;
+            max-height: 85vh;
+            position: relative;
+            border: 1px solid var(--border-color);
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            box-shadow: 0 50px 100px -30px rgba(251, 191, 36, 0.3);
+        }
+
+        .modal-header {
+            padding: 1.5rem;
+            background: linear-gradient(135deg, rgba(251, 191, 36, 0.1) 0%, rgba(236, 72, 153, 0.05) 100%);
+            border-bottom: 1px solid var(--border-color);
+            position: relative;
+        }
+
+        .modal-title {
+            font-family: 'Clash Display', sans-serif;
+            font-size: 1.5rem;
+            font-weight: 600;
+            color: var(--text-primary);
+            margin-bottom: 0.5rem;
+        }
+
+        .modal-subtitle {
+            font-size: 0.75rem;
+            color: var(--text-secondary);
+            font-weight: 500;
+        }
+
+        .modal-body {
+            flex: 1;
+            overflow-y: auto;
+            padding: 1.5rem;
+            scroll-behavior: smooth;
+        }
+
+        .modal-body::-webkit-scrollbar {
+            width: 6px;
+        }
+
+        .modal-body::-webkit-scrollbar-track {
+            background: transparent;
+        }
+
+        .modal-body::-webkit-scrollbar-thumb {
+            background: var(--primary);
+            border-radius: 3px;
+        }
+
+        .modal-body::-webkit-scrollbar-thumb:hover {
+            background: var(--accent);
+        }
+
+        .modal-footer {
+            padding: 1.5rem;
+            border-top: 1px solid var(--border-color);
+            background: rgba(0, 0, 0, 0.3);
+        }
+
+        .modal-close {
+            position: absolute;
+            top: 1rem;
+            right: 1rem;
+            width: 40px;
+            height: 40px;
+            background: rgba(255, 255, 255, 0.1);
+            border: none;
+            border-radius: 50%;
+            color: var(--text-primary);
+            font-size: 1.5rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 10;
+        }
+
+        .modal-close:hover {
+            background: var(--primary);
+            color: #000;
+            transform: rotate(90deg);
+        }
+
+        /* Product Item */
+        .product-item {
+            padding: 1rem;
+            background: rgba(251, 191, 36, 0.05);
+            border: 1px solid var(--border-color);
+            border-radius: 16px;
+            margin-bottom: 1rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+
+        .product-item:hover {
+            background: rgba(251, 191, 36, 0.1);
+            border-color: var(--primary);
+            transform: translateX(5px);
+        }
+
+        .product-name {
+            color: var(--text-primary);
+            font-weight: 500;
+        }
+
+        .product-price {
+            color: var(--primary);
+            font-weight: 700;
+            font-size: 1.1rem;
+        }
+
+        /* Menu Category */
+        .menu-category {
+            padding: 1.5rem;
+            margin-bottom: 1rem;
+            background: rgba(251, 191, 36, 0.05);
+            border: 1px solid var(--border-color);
+            border-radius: 20px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .menu-category:hover {
+            background: rgba(251, 191, 36, 0.1);
+            border-color: var(--primary);
+            transform: translateY(-3px);
+        }
+
+        .menu-category-title {
+            font-size: 1.3rem;
+            font-weight: 600;
+            color: var(--text-primary);
+            margin-bottom: 0.3rem;
+        }
+
+        .menu-category-desc {
+            font-size: 0.8rem;
+            color: var(--text-secondary);
+        }
+
+        /* Service Item */
+        .service-item {
+            padding: 1rem;
+            border: 1px solid var(--border-color);
+            border-radius: 16px;
+            margin-bottom: 1rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            background: rgba(251, 191, 36, 0.02);
+        }
+
+        .service-item:hover {
+            border-color: var(--primary);
+            background: rgba(251, 191, 36, 0.08);
+            transform: translateY(-2px);
+        }
+
+        .service-emoji {
+            font-size: 2rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .service-name {
+            font-weight: 600;
+            color: var(--text-primary);
+            margin-bottom: 0.3rem;
+        }
+
+        .service-price {
+            color: var(--primary);
+            font-weight: 700;
+        }
+
+        /* Footer Button */
+        .cta-footer-btn {
+            width: 100%;
+            padding: 1rem;
+            background: linear-gradient(135deg, var(--primary) 0%, #f59e0b 100%);
+            color: #000;
+            border: none;
+            border-radius: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 1rem;
+            box-shadow: 0 10px 30px -10px rgba(251, 191, 36, 0.4);
+            text-decoration: none;
+            display: block;
+        }
+
+        .cta-footer-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 15px 40px -10px rgba(251, 191, 36, 0.6);
+        }
+
+        /* Animations */
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            nav {
+                padding: 1rem;
+            }
+
+            .display-xl {
+                font-size: 2.5rem;
+            }
+
+            .hero {
+                padding-top: 60px;
+            }
+
+            .hero-content {
+                padding: 1rem;
+            }
+
+            .stats {
+                padding: 3rem 1.5rem;
+            }
+
+            .features, .portfolio, .cta, .faq {
+                padding: 3rem 1rem;
+            }
+
+            .cta-card {
+                padding: 2rem;
+            }
+
+            .modal-content {
+                max-height: 70vh;
+            }
+        }
+
+        /* Scrollbar Styling */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: var(--dark-bg);
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: var(--primary);
+            border-radius: 4px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: var(--accent);
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Navigation -->
+    <nav>
+        <div class="container">
+            <div class="logo">The Local<span class="text-gold">.Theory</span></div>
+            <ul class="nav-links" id="navLinks">
+                <li><a href="#hero">Start</a></li>
+                <li><a href="#stats">Performance</a></li>
+                <li><a href="#features">Capabilities</a></li>
+                <li><a href="#portfolio">Showcase</a></li>
+            </ul>
+            <a href="https://wa.me/918660280623" target="_blank" class="btn-primary">Book Consultation</a>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section id="hero" class="hero">
+        <div class="hero-content">
+            <div class="headline">Digital Excellence Awaits</div>
+            <h1 class="display-xl">We Engineer <span class="highlight">Digital Dominance</span></h1>
+            <p class="subtext">Your business is great. It's time your website convinced everyone else of that. Built in 48 hours. Designed for eternity.</p>
+            <div style="margin-top: 2.5rem; display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap;">
+                <a href="#portfolio" class="btn-primary">View Live Simulations</a>
+                <button class="btn-secondary" onclick="scrollToSection('faq')">Learn More</button>
+            </div>
+        </div>
+    </section>
+
+    <!-- Stats Section -->
+    <section id="stats" class="stats">
+        <div class="stats-grid">
+            <div class="stat-item">
+                <div class="stat-number">85+</div>
+                <div class="stat-label">Projects Delivered</div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-number">99%</div>
+                <div class="stat-label">Uptime Reliability</div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-number">48h</div>
+                <div class="stat-label">Average Launch</div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-number">24/7</div>
+                <div class="stat-label">Priority Support</div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Features Section -->
+    <section id="features" class="features">
+        <div class="section-title">
+            <div class="display-lg">Our Technical <span class="text-gold">Ecosystem</span></div>
+        </div>
+        <div class="features-grid">
+            <div class="glass-card feature-card">
+                <div class="feature-icon">⚡</div>
+                <h3 class="feature-title">Core Speed</h3>
+                <p class="feature-description">Edge-optimized architecture ensures instant loading on low-end 4G connections. Lightning-fast performance that never compromises.</p>
+            </div>
+            <div class="glass-card feature-card">
+                <div class="feature-icon">🤖</div>
+                <h3 class="feature-title">Smart Automation</h3>
+                <p class="feature-description">Automated WhatsApp order routing directly to your phone. No apps, no middleman. Pure efficiency.</p>
+            </div>
+            <div class="glass-card feature-card">
+                <div class="feature-icon">🛡️</div>
+                <h3 class="feature-title">Fortified Security</h3>
+                <p class="feature-description">Enterprise-grade SSL encryption keeps customer data completely private. Bank-level security standards.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Portfolio Section -->
+    <section id="portfolio" class="portfolio">
+        <div class="section-title">
+            <div class="display-lg">Live Project <span class="text-gold">Simulators</span></div>
+        </div>
+        <div class="portfolio-grid">
+            <div class="glass-card portfolio-card">
+                <div class="portfolio-card-inner">
+                    <div class="portfolio-emoji">🛒</div>
+                    <h3 class="portfolio-title">Kirana Express</h3>
+                    <div class="portfolio-category">Retail E-commerce</div>
+                    <p class="portfolio-description">Real-time inventory management with instant WhatsApp ordering integration for seamless grocery shopping.</p>
+                    <button class="btn-primary portfolio-btn" onclick="launchSim('grocery')">Launch Site</button>
+                </div>
+            </div>
+            <div class="glass-card portfolio-card">
+                <div class="portfolio-card-inner">
+                    <div class="portfolio-emoji">🍕</div>
+                    <h3 class="portfolio-title">Spice Kitchen</h3>
+                    <div class="portfolio-category">Restaurant Booking</div>
+                    <p class="portfolio-description">Digital menus with table reservations and real-time availability. Fine dining meets seamless booking.</p>
+                    <button class="btn-primary portfolio-btn" onclick="launchSim('resto')">Launch Site</button>
+                </div>
+            </div>
+            <div class="glass-card portfolio-card">
+                <div class="portfolio-card-inner">
+                    <div class="portfolio-emoji">✂️</div>
+                    <h3 class="portfolio-title">Luxury Cuts</h3>
+                    <div class="portfolio-category">Salon Appointment</div>
+                    <p class="portfolio-description">Automated booking engine with specialist selection. Premium salon experience at your fingertips.</p>
+                    <button class="btn-primary portfolio-btn" onclick="launchSim('salon')">Launch Site</button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA Section -->
+    <section id="cta" class="cta">
+        <div class="cta-card">
+            <div class="cta-content">
+                <h2 class="display-lg">A Personal <span class="text-gold">Guarantee</span></h2>
+                <p class="cta-quote">"I built this agency because I saw too many hardworking shop owners being charged ₹50,000 for simple websites. At The Local Theory, we cut out the fluff. You get a world-class site, in 48 hours, for a price that makes business sense."</p>
+                <div class="cta-author">— Founder, The Local Theory</div>
+            </div>
+        </div>
+    </section>
+
+    <!-- FAQ Section -->
+    <section id="faq" class="faq">
+        <div class="faq-title">
+            <div class="display-lg">Questions? <span class="text-gold">Answers.</span></div>
+        </div>
+        <div class="faq-item">
+            <span class="faq-question">Is hosting and domain included?</span>
+            <span class="faq-answer">Yes</span>
+        </div>
+        <div class="faq-item">
+            <span class="faq-question">Can I update my menu later?</span>
+            <span class="faq-answer">Yes, 1-click</span>
+        </div>
+        <div class="faq-item">
+            <span class="faq-question">What about mobile responsiveness?</span>
+            <span class="faq-answer">100% optimized</span>
+        </div>
+        <div class="faq-item">
+            <span class="faq-question">How much support do I get?</span>
+            <span class="faq-answer">24/7 Priority</span>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div style="margin-bottom: 2rem;">
+            <h3 class="display-lg">Ready to dominate? <span class="text-gold">Let's build.</span></h3>
+            <div style="margin-top: 1.5rem; display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap;">
+                <a href="https://wa.me/918660280623" target="_blank" class="btn-primary">💬 WhatsApp Now</a>
+                <a href="tel:+918660280623" class="btn-secondary">📞 Call Us</a>
+            </div>
+        </div>
+        <div style="margin: 2rem 0; padding: 1.5rem; background: rgba(251, 191, 36, 0.05); border-radius: 20px; border: 1px solid var(--border-color);">
+            <div style="font-size: 1.3rem; color: var(--text-primary); margin-bottom: 0.5rem; font-weight: 600;">📱 +91 8660280623</div>
+            <a href="https://wa.me/918660280623" target="_blank" style="color: var(--primary); text-decoration: none; font-weight: 600; transition: all 0.3s ease;" onmouseover="this.style.opacity='0.8'" onmouseout="this.style.opacity='1'">Click to chat on WhatsApp →</a>
+        </div>
+        <p class="footer-text">© 2026 The Local Theory | Rajajinagar, Bengaluru</p>
+    </footer>
+
+    <!-- Modal -->
+    <div id="modal" class="modal" onclick="closeSimOnBackdrop(event)">
+        <div class="modal-content" onclick="event.stopPropagation()">
+            <div class="modal-header">
+                <button class="modal-close" onclick="closeSim()">×</button>
+                <div class="modal-title" id="modalTitle"></div>
+                <div class="modal-subtitle" id="modalSubtitle"></div>
+            </div>
+            <div class="modal-body" id="modalContent"></div>
+            <div class="modal-footer" id="modalFooter"></div>
+        </div>
+    </div>
+
+    <script>
+        function scrollToSection(id) {
+            const element = document.getElementById(id);
+            element.scrollIntoView({ behavior: 'smooth' });
+        }
+
+        function launchSim(type) {
+            const modal = document.getElementById('modal');
+            const title = document.getElementById('modalTitle');
+            const subtitle = document.getElementById('modalSubtitle');
+            const content = document.getElementById('modalContent');
+            const footer = document.getElementById('modalFooter');
+            
+            const templates = {
+                grocery: {
+                    title: '🛒 Kirana Express',
+                    subtitle: 'Fresh Groceries Delivered Fast',
+                    content: `<div><div style="margin-bottom:2rem"><div style="font-size:0.8rem;color:var(--primary);font-weight:700;margin-bottom:0.5rem">📍 Live Inventory</div><input type="text" placeholder="Search products..." style="width:100%;padding:0.75rem;background:rgba(251,191,36,0.05);border:1px solid var(--border-color);border-radius:12px;color:var(--text-primary);font-family:'Poppins',sans-serif"/></div><div style="margin-bottom:2rem"><div style="font-weight:600;color:var(--text-primary);margin-bottom:1rem">🌾 Fresh Staples</div><div class="product-item"><span class="product-name">Premium Basmati Rice 5kg</span><span class="product-price">₹450</span></div><div class="product-item"><span class="product-name">Fortune Oil 1L</span><span class="product-price">₹165</span></div><div class="product-item"><span class="product-name">Organic Atta 10kg</span><span class="product-price">₹320</span></div><div class="product-item"><span class="product-name">Sugar 1kg</span><span class="product-price">₹45</span></div><div class="product-item"><span class="product-name">Salt Pure 1kg</span><span class="product-price">₹35</span></div></div><div style="margin-bottom:2rem"><div style="font-weight:600;color:var(--text-primary);margin-bottom:1rem">🥬 Fresh Vegetables</div><div class="product-item"><span class="product-name">Tomatoes (1kg)</span><span class="product-price">₹35</span></div><div class="product-item"><span class="product-name">Onions (2kg)</span><span class="product-price">₹60</span></div><div class="product-item"><span class="product-name">Fresh Spinach (500g)</span><span class="product-price">₹30</span></div><div class="product-item"><span class="product-name">Carrots (500g)</span><span class="product-price">₹25</span></div></div><div style="margin-bottom:2rem"><div style="font-weight:600;color:var(--text-primary);margin-bottom:1rem">🥛 Dairy & Eggs</div><div class="product-item"><span class="product-name">Milk (1L)</span><span class="product-price">₹55</span></div><div class="product-item"><span class="product-name">Eggs (Dozen)</span><span class="product-price">₹80</span></div><div class="product-item"><span class="product-name">Yogurt (500ml)</span><span class="product-price">₹40</span></div><div class="product-item"><span class="product-name">Butter (200g)</span><span class="product-price">₹120</span></div></div><div><div style="font-weight:600;color:var(--text-primary);margin-bottom:1rem">🍊 Fresh Fruits</div><div class="product-item"><span class="product-name">Apples (1kg)</span><span class="product-price">₹120</span></div><div class="product-item"><span class="product-name">Bananas (1 bunch)</span><span class="product-price">₹40</span></div></div></div>`,
+                    footer: `<a href="https://wa.me/918660280623?text=Hi!%20I%20want%20to%20order%20from%20Kirana%20Express" target="_blank" class="cta-footer-btn" style="background:linear-gradient(135deg,#10b981 0%,#059669 100%);box-shadow:0 10px 30px -10px rgba(16,185,129,0.4)">💬 Order on WhatsApp</a>`
+                },
+                resto: {
+                    title: '🍕 Spice Kitchen',
+                    subtitle: 'Fine Dining Experience',
+                    content: `<div><div style="margin-bottom:2rem;padding:1rem;background:linear-gradient(135deg,rgba(251,191,36,0.1) 0%,rgba(236,72,153,0.05) 100%);border-radius:16px;border:1px solid var(--border-color)"><div style="font-size:0.8rem;color:var(--primary);font-weight:700;margin-bottom:0.5rem">⭐ Tonight's Special</div><div style="color:var(--text-primary);font-weight:600">Butter Chicken & Naan Combo</div><div style="color:var(--text-secondary);font-size:0.85rem;margin-top:0.3rem">₹450 - Limited offer till 10 PM</div></div><div style="margin-bottom:2rem"><div style="font-weight:600;color:var(--text-primary);margin-bottom:1rem">🍢 Starters</div><div class="menu-category"><div class="menu-category-title">Paneer Tikka</div><div class="menu-category-desc">Grilled cottage cheese with spices • ₹220</div></div><div class="menu-category"><div class="menu-category-title">Tandoori Chicken</div><div class="menu-category-desc">Marinated & tandoori roasted • ₹280</div></div><div class="menu-category"><div class="menu-category-title">Samosa (4 pcs)</div><div class="menu-category-desc">Crispy pastry with potato filling • ₹120</div></div></div><div style="margin-bottom:2rem"><div style="font-weight:600;color:var(--text-primary);margin-bottom:1rem">🍛 Main Course</div><div class="menu-category"><div class="menu-category-title">Butter Chicken</div><div class="menu-category-desc">Tender chicken in creamy tomato sauce • ₹320</div></div><div class="menu-category"><div class="menu-category-title">Dal Makhani</div><div class="menu-category-desc">Slow-cooked lentils with cream • ₹200</div></div><div class="menu-category"><div class="menu-category-title">Biryani (Chicken/Veg)</div><div class="menu-category-desc">Fragrant rice with spiced meat • ₹350</div></div><div class="menu-category"><div class="menu-category-title">Paneer Tikka Masala</div><div class="menu-category-desc">Cottage cheese in aromatic sauce • ₹280</div></div></div><div style="margin-bottom:2rem"><div style="font-weight:600;color:var(--text-primary);margin-bottom:1rem">🍞 Breads</div><div class="menu-category"><div class="menu-category-title">Garlic Naan</div><div class="menu-category-desc">Soft bread with garlic butter • ₹80</div></div><div class="menu-category"><div class="menu-category-title">Tandoori Roti</div><div class="menu-category-desc">Traditional Indian flatbread • ₹50</div></div><div class="menu-category"><div class="menu-category-title">Cheese Naan</div><div class="menu-category-desc">Naan with melted cheese • ₹120</div></div></div><div><div style="font-weight:600;color:var(--text-primary);margin-bottom:1rem">🍰 Desserts</div><div class="menu-category"><div class="menu-category-title">Gulab Jamun</div><div class="menu-category-desc">Soft dough balls in sugar syrup • ₹150</div></div><div class="menu-category"><div class="menu-category-title">Kheer</div><div class="menu-category-desc">Rice pudding with nuts • ₹120</div></div></div></div>`,
+                    footer: `<a href="https://wa.me/918660280623?text=Hi!%20I%20want%20to%20make%20a%20reservation%20at%20Spice%20Kitchen" target="_blank" class="cta-footer-btn" style="background:linear-gradient(135deg,#f97316 0%,#ea580c 100%);box-shadow:0 10px 30px -10px rgba(249,115,22,0.4)">🍽️ Reserve a Table</a>`
+                },
+                salon: {
+                    title: '✂️ Luxury Cuts',
+                    subtitle: 'Premium Salon Services',
+                    content: `<div><div style="margin-bottom:2rem;padding:1rem;background:rgba(251,191,36,0.05);border-radius:16px;border:1px solid var(--border-color)"><div style="font-size:0.8rem;color:var(--primary);font-weight:700;margin-bottom:0.75rem">👨‍💼 Select Specialist</div><div style="display:grid;grid-template-columns:1fr 1fr;gap:0.75rem"><div style="padding:0.75rem;background:rgba(251,191,36,0.1);border:1px solid var(--border-color);border-radius:12px;cursor:pointer;text-align:center;transition:all 0.3s ease" onmouseover="this.style.borderColor='var(--primary)';this.style.background='rgba(251,191,36,0.2)'" onmouseout="this.style.borderColor='var(--border-color)';this.style.background='rgba(251,191,36,0.1)'"><div style="font-weight:600;color:var(--text-primary)">Rahul</div><div style="font-size:0.7rem;color:var(--text-secondary)">5★ (240 reviews)</div></div><div style="padding:0.75rem;background:rgba(251,191,36,0.1);border:1px solid var(--border-color);border-radius:12px;cursor:pointer;text-align:center;transition:all 0.3s ease" onmouseover="this.style.borderColor='var(--primary)';this.style.background='rgba(251,191,36,0.2)'" onmouseout="this.style.borderColor='var(--border-color)';this.style.background='rgba(251,191,36,0.1)'"><div style="font-weight:600;color:var(--text-primary)">Priya</div><div style="font-size:0.7rem;color:var(--text-secondary)">5★ (180 reviews)</div></div></div></div><div style="margin-bottom:2rem"><div style="font-weight:600;color:var(--text-primary);margin-bottom:1rem">💇 Hair Services</div><div class="service-item"><div class="service-emoji">💇</div><div class="service-name">Haircut & Style</div><div class="service-price">₹350 • 45 min</div></div><div class="service-item"><div class="service-emoji">💆</div><div class="service-name">Hair Spa & Treatment</div><div class="service-price">₹650 • 60 min</div></div><div class="service-item"><div class="service-emoji">✨</div><div class="service-name">Hair Color & Styling</div><div class="service-price">₹1200 • 120 min</div></div></div><div style="margin-bottom:2rem"><div style="font-weight:600;color:var(--text-primary);margin-bottom:1rem">💅 Facial & Skincare</div><div class="service-item"><div class="service-emoji">✨</div><div class="service-name">Basic Facial</div><div class="service-price">₹450 • 45 min</div></div><div class="service-item"><div class="service-emoji">💆‍♀️</div><div class="service-name">Hydra Facial</div><div class="service-price">₹800 • 60 min</div></div><div class="service-item"><div class="service-emoji">🌟</div><div class="service-name">Chemical Peel</div><div class="service-price">₹950 • 45 min</div></div></div><div style="margin-bottom:2rem"><div style="font-weight:600;color:var(--text-primary);margin-bottom:1rem">💆 Body Treatments</div><div class="service-item"><div class="service-emoji">💆</div><div class="service-name">Full Body Massage</div><div class="service-price">₹600 • 60 min</div></div><div class="service-item"><div class="service-emoji">🧘</div><div class="service-name">Swedish Massage</div><div class="service-price">₹750 • 75 min</div></div><div class="service-item"><div class="service-emoji">🌿</div><div class="service-name">Ayurvedic Massage</div><div class="service-price">₹850 • 90 min</div></div></div><div><div style="font-weight:600;color:var(--text-primary);margin-bottom:1rem">💇‍♀️ Additional Services</div><div class="service-item"><div class="service-emoji">💄</div><div class="service-name">Makeup & Bridal</div><div class="service-price">₹1500 • 120 min</div></div><div class="service-item"><div class="service-emoji">💅</div><div class="service-name">Nail Art & Manicure</div><div class="service-price">₹400 • 45 min</div></div></div></div>`,
+                    footer: `<a href="https://wa.me/918660280623?text=Hi!%20I%20want%20to%20book%20an%20appointment%20at%20Luxury%20Cuts" target="_blank" class="cta-footer-btn" style="background:linear-gradient(135deg,#8b5cf6 0%,#7c3aed 100%);box-shadow:0 10px 30px -10px rgba(139,92,246,0.4)">📅 Book Appointment</a>`
+                }
+            };
+
+            const template = templates[type];
+            title.textContent = template.title;
+            subtitle.textContent = template.subtitle;
+            content.innerHTML = template.content;
+            footer.innerHTML = template.footer;
+            
+            modal.classList.add('active');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeSim() {
+            const modal = document.getElementById('modal');
+            modal.classList.remove('active');
+            document.body.style.overflow = 'auto';
+        }
+
+        function closeSimOnBackdrop(e) {
+            if (e.target.id === 'modal') closeSim();
+        }
+
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape') closeSim();
+        });
+    </script>
+</body>
+</html>
